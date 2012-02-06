@@ -1,5 +1,7 @@
 from setuptools import setup
 
+
+
 setup(
     name = "django-postmark",
     version = __import__("postmark").__version__,
@@ -12,6 +14,7 @@ setup(
     install_requires = [
         "httplib2",
         "pytz",
+        "python-dateutil==1.5",
     ],
     packages = [
         "postmark",
