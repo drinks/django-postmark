@@ -10,6 +10,7 @@ import pytz
 from postmark.signals import post_send
 
 POSTMARK_DATETIME_STRING = "%Y-%m-%dT%H:%M:%S.%f"
+POSTMARK_USE_TZ = getattr(settings, "POSTMARK_USE_TZ", True)
 
 TO_CHOICES = (
     ("to", _("Recipient")),
@@ -103,7 +104,11 @@ def sent_message(sender, **kwargs):
         if not recipient[0]:
             continue
 
-        submitted_at = parse(resp["SubmittedAt"])
+        submitted_at = parse(resp["SubmittedAt"]).astimezone(pytz.utc)
+
+        if POSTMARK_USE_TZ == False:
+            submitted_at = submitted_at.replace(tzinfo=None)
+
         emsg = EmailMessage(
             message_id=resp["MessageID"],
             submitted_at=submitted_at,
