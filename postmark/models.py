@@ -42,6 +42,7 @@ BOUNCE_TYPES = (
 
 class EmailMessage(models.Model):
     message_id = models.CharField(_("Message ID"), max_length=40)
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     submitted_at = models.DateTimeField(_("Submitted At"))
     status = models.CharField(_("Status"), max_length=150)
 
